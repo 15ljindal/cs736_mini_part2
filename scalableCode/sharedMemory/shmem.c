@@ -82,48 +82,60 @@ int main(int argc, char* argv[])
     /* first child */
     for (int k = 0;k<100;k++)
     {
-      printf("[CHILD] k - %d",k);
+      while  (*shared_flag_ptr%2 == 1);
+      printf("[CHILD] k - %d\n",k);
+      fflush(stdout);
       if ((rtn = pthread_mutex_lock(mptr)) != 0)
         fprintf(stderr,"child:pthread_mutex_lock %s",strerror(rtn)),exit(1);
       printf("[CHILD]Child has lock!\n");
+      fflush(stdout);
       for (int i=0;i<shmemSize;i++)
       {
         char temp = shared_buffer_ptr[i];
         shared_buffer_ptr[i] = 'c';
       }
       printf("[CHILD]Child will release lock!\n");
+      fflush(stdout);
       if ((rtn = pthread_mutex_unlock(mptr)) != 0)
         fprintf(stderr,"child:pthread_unmutex_lock %s",strerror(rtn)),exit(1);
       printf ("[CHILD]Writing Shared Flag Value\n");
-      *shared_flag_ptr = 1;
+      fflush(stdout);
+      (*shared_flag_ptr)++;
     }
   } else {
 
     /* parent */ 
     for(int k =0;k<100;k++)
     {
-      printf("[CHILD] k - %d",k);
-      printf("[PARENT]Shared Flag Value - %d\n",*shared_flag_ptr);
+      printf("[PARENT] k - %d\n",k);
+      fflush(stdout);
       printf("[PARENT]Parent has lock!\n");
+      fflush(stdout);
       for (int i=0;i<shmemSize;i++)
       {
         shared_buffer_ptr[i] = 'p';
       }
       printf("\n");
+      fflush(stdout);
       printf("[PARENT]Parent will release lock!\n");
+      fflush(stdout);
       if ((rtn = pthread_mutex_unlock(mptr)) != 0)
         fprintf(stderr,"child:pthread_unmutex_lock %d",strerror(rtn)),exit(1);
       printf("[PARENT]Shared Flag Value - %d\n",*shared_flag_ptr);
-      while  (*shared_flag_ptr == 0);
+      fflush(stdout);
+      while  (*shared_flag_ptr%2 == 0);
       printf("[PARENT]Shared Flag Value - %d\n",*shared_flag_ptr);
-      *shared_flag_ptr = 0;
+      fflush(stdout);
       for (int i=0;i<shmemSize;i++)
       {
         printf("%c",shared_buffer_ptr[i]);
+	fflush(stdout);
       }
       printf("\n");
+      fflush(stdout);
       if ((rtn = pthread_mutex_lock(mptr)) != 0)
 	fprintf(stderr,"parent:pthread_mutex_lock %d",strerror(rtn)),exit(1); //Parent will acquire the lock to the file here!
+      (*shared_flag_ptr)++;
     }
   }
 
