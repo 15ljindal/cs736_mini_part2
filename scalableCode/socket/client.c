@@ -51,19 +51,19 @@ int main(int argc, char *argv[])
     {
       if (send(sockfd,sendBuff,sizeof(char)*atoi(argv[2]),0) <0)
           printf ("error sending packet\n");
-      else
-          printf ("packet send done\n");
+      //else
+      //    printf ("packet send done\n");
 
       
       //while ( (n = read(sockfd, recvBuff, sizeof(char)*(atoi(argv[2])+1))) > 0)
       {
           n = read(sockfd, recvBuff, sizeof(char)*(atoi(argv[2])+1));
           recvBuff[n] = 0;
-          if(fputs(recvBuff, stdout) == EOF)
-          {
-              printf("\n Error : Fputs error\n");
-          }
-          printf ("\n");
+          //if(fputs(recvBuff, stdout) == EOF)
+          //{
+          //    printf("\n Error : Fputs error\n");
+          //}
+          //printf ("\n");
       } 
 
       if(n < 0)
