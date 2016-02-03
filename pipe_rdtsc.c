@@ -6,7 +6,7 @@
 
 #include "hwtimer.h"
 
-#define ITER 50
+#define ITER 100
  
 int main(int argc, char**argv)
 {
@@ -17,6 +17,8 @@ int main(int argc, char**argv)
         // char    readbuffer[80];
         uint64_t time_elapsed = 0; 
         uint64_t time_accum = 0;
+        uint64_t min = 0;
+        uint64_t max = 0;
         int mindex = -1;
         int i = 0;
 
@@ -78,11 +80,15 @@ int main(int argc, char**argv)
                   stopTimer (&rdtimer);
                   time_elapsed = getTimerNs(&rdtimer);
                   if (i > 0) { time_accum += time_elapsed; }
+                  if (i == 1) { min = time_elapsed; max = time_elapsed;}
+                  if (time_elapsed > max) { max = time_elapsed; }
+                  if (time_elapsed < min) { min = time_elapsed; }
  
                   printf("time is %lld\n", (long long)time_elapsed);
                   // printf("Received string: %s", readbuffer);
                 }
-                printf("accum_time is %lld and average time is %lld\n", time_accum, time_accum / (ITER - 1));
+                printf ("==========================\n");
+                printf("acc is: %lld\navg is: %lld\nmin is: %lld\nmax is: %lld\n", time_accum, time_accum / (ITER - 1), min, max);
                 exit(0);
         }
         else
