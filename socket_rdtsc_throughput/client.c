@@ -13,6 +13,8 @@
 
 int main(int argc, char *argv[])
 {
+    uint64_t min = 0;
+    uint64_t max = 0;
     pin_on_cpu (1);
     hwtimer_t rdtimer;
     initTimer(&rdtimer);
@@ -66,7 +68,7 @@ int main(int argc, char *argv[])
     
     for (int k=0;k<ITER;k++)
     {	
-	printf("Loop %d\n",k);
+	//printf("Loop %d\n",k);
 	resetTimer(&rdtimer);
 	startTimer (&rdtimer);
 	for (int i=0;i<(transferSize/messageSize);i++)
@@ -95,11 +97,20 @@ int main(int argc, char *argv[])
     	  acc= acc+j;
     	}
 	stopTimer (&rdtimer);
-	time_elapsed = getTimerNs(&rdtimer);
-	if (k > 0) { time_accum += time_elapsed; }
-    	printf ("Total bytes received is %d\n",acc);
+	time_elapsed = getTimerNs(&rdtimer); 
+        if (k > 0) { 
+	    time_accum += time_elapsed; 
+	} 
+
+        if (k == 1) { min = time_elapsed; max = time_elapsed;}
+        if (time_elapsed > max) { max = time_elapsed; }
+        if (time_elapsed < min) { min = time_elapsed; }
+        printf("time is %lld\n", (long long)time_elapsed);
+
+    	//printf ("Total bytes received is %d\n",acc);
     }
-    printf("Throughput for sockets is %f\n",((transferSize+4)*(10^9))/(time_accum/99.0));
+    printf ("==========================\n");
+    printf("Throughput with avg is: %f\nThroughput with min is: %f\nThroughput with max is: %f\n", (float)(messageSize*10^9)/(time_accum / (ITER - 1)), (float)(messageSize*10^9)/min, (float)(messageSize*10^9)/max);
     close(sockfd);
     return 0;
 }
