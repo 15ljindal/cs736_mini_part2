@@ -13,6 +13,8 @@
 
 int main(int argc, char *argv[])
 {
+    uint64_t min = 0;
+    uint64_t max = 0;
     pin_on_cpu (1);
     hwtimer_t rdtimer;
     initTimer(&rdtimer);
@@ -65,14 +67,14 @@ int main(int argc, char *argv[])
     
     for (int k=0;k<ITER;k++)
     {	
-	printf("Loop %d\n",k);
+	//printf("Loop %d\n",k);
 	resetTimer(&rdtimer);
 	startTimer (&rdtimer);
 	sentBytes = send(sockfd,sendBuff,sizeof(char)*messageSize,0);
     	if (sentBytes < 0 )
     	    printf ("error sending packet\n");
-    	else
-    	    printf ("packet send done  %d\n",sentBytes);
+    	//else
+    	//    printf ("packet send done  %d\n",sentBytes);
     	    
     	
     	n = messageSize;
@@ -93,10 +95,19 @@ int main(int argc, char *argv[])
     	}
 	stopTimer (&rdtimer);
 	time_elapsed = getTimerNs(&rdtimer);
-	if (k > 0) { time_accum += time_elapsed; }
-    	printf ("Total bytes received is %d\n",acc);
+	if (k > 0) { time_accum += time_elapsed; } 
+        if (k > 0) { 
+	    time_accum += time_elapsed; 
+        } 
+	if (k == 1) { min = time_elapsed; max = time_elapsed;}
+	if (time_elapsed > max) { max = time_elapsed; }
+	if (time_elapsed < min) { min = time_elapsed; }
+        printf("time is %lld\n", (long long)time_elapsed);
+
+    	//printf ("Total bytes received is %d\n",acc);
     }
-    printf("Average latency for sockets is %f\n",time_accum/99.0);
+    printf ("==========================\n");
+    printf("acc is: %lld\navg is: %lld\nmin is: %lld\nmax is: %lld\n", time_accum, time_accum / (ITER - 1), min, max);
     close(sockfd);
     return 0;
 }

@@ -27,6 +27,8 @@ pthread_mutex_t	*mptr;
 
 int main(int argc, char* argv[])
 {
+  uint64_t min = 0;
+  uint64_t max = 0;
   pin_on_cpu (0);
   hwtimer_t rdtimer;
   initTimer(&rdtimer);
@@ -99,9 +101,9 @@ int main(int argc, char* argv[])
       //fflush(stdout);
       for (int i=0;i<shmemSize;i++)
       {
-        //char temp = shared_buffer_ptr[i];
-        shared_buffer_ptr[i] = 'c';
+        char temp = shared_buffer_ptr[i];
       }
+      shared_buffer_ptr[0] = 'c';
       //printf("[CHILD]Child will release lock!\n");
       //fflush(stdout);
       if ((rtn = pthread_mutex_unlock(mptr)) != 0)
@@ -136,6 +138,7 @@ int main(int argc, char* argv[])
       while  (*shared_flag_ptr%2 == 0);
       //printf("[PARENT]Shared Flag Value - %d\n",*shared_flag_ptr);
       //fflush(stdout);
+      char temp = shared_buffer_ptr[0];
       //for (int i=0;i<shmemSize;i++)
       //{
       //  //printf("%c",shared_buffer_ptr[i]);
@@ -144,14 +147,22 @@ int main(int argc, char* argv[])
       //}
       stopTimer (&rdtimer);
       time_elapsed = getTimerNs(&rdtimer);
-      if (k > 0) { time_accum += time_elapsed; }
+      if (k > 0) { 
+	  time_accum += time_elapsed; 
+      } 
+      if (k == 1) { min = time_elapsed; max = time_elapsed;}
+      if (time_elapsed > max) { max = time_elapsed; }
+      if (time_elapsed < min) { min = time_elapsed; }
+      printf("time is %lld\n", (long long)time_elapsed);
+
       //printf("\n");
       //fflush(stdout);
       if ((rtn = pthread_mutex_lock(mptr)) != 0)
 	fprintf(stderr,"parent:pthread_mutex_lock %d",strerror(rtn)),exit(1); //Parent will acquire the lock to the file here!
       (*shared_flag_ptr)++;
     }
-    printf("Average throughput for shared memory is %f\n",(shmemSize*10^9)/(time_accum/99.0));
+    printf ("==========================\n");
+    printf("Throughput with avg is: %f\nThroughput with min is: %f\nThroughput with max is: %f\n", (float)(shmemSize*10^9)/(time_accum / (ITER - 1)), (float)(shmemSize*10^9)/min, (float)(shmemSize*10^9)/max);
   }
 
 
