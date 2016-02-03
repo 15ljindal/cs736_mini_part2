@@ -1,4 +1,4 @@
-#include<stdio.h>
+
 #include <stdint.h> /* for uint64 definition */
 #include <stdlib.h> /* for exit() definition */
 #include <time.h> /* for clock_gettime */
@@ -8,9 +8,13 @@
 #define BILLION 1000000000L
 #define MILLION 1000000L
 #define ITER 10
+#define REPEAT 100
 int main (void)
 {
-  uint64_t diff=0, base=0, base_accum = 0, dummy_a = 0, dummy_b = 0;
+  uint64_t diff[REPEAT];
+  uint64_t base=0, base_accum = 0, dummy_a = 0, dummy_b = 0;
+  double mean, variance;
+  uint64_t mean_accum = 0, max = 0; 
 
 #ifdef CLOCK_GET_TIME
  struct timespec start, end;
@@ -74,7 +78,7 @@ int main (void)
 
 
 #if(1)
- for (i =0; i < 10; i++)
+ for (i =0; i < REPEAT; i++)
  {
    /* measure monotonic time */
 
@@ -131,7 +135,7 @@ int main (void)
   #endif
 
   #ifdef GET_TIME_OF_DAY
-   for (dummy_a = 0; dummy_a < 1000; dummy_a++); 
+   for (dummy_a = 0; dummy_a < 400; dummy_a++); 
   #endif
   
   #ifdef RDTSC
@@ -176,28 +180,45 @@ int main (void)
 
   #ifdef CLOCK_GET_TIME
   clock_gettime(CLOCK_MONOTONIC, &end); /* mark the end time */
-   diff = BILLION * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec ;
+   diff[i] = BILLION * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec ;
   #endif
   #ifdef GET_TIME_OF_DAY
     gettimeofday(&end, NULL); /* mark start time */
-   diff = MILLION * (end.tv_sec - start.tv_sec) + end.tv_usec - start.tv_usec ;
+   diff[i] = MILLION * (end.tv_sec - start.tv_sec) + end.tv_usec - start.tv_usec ;
   #endif
   #ifdef RDTSC
     stopTimer(&rdtimer);
-    diff = getTimerNs(&rdtimer);
+    diff[i] = getTimerNs(&rdtimer);
   #endif
 
-   diff = diff- base; // removing the overhead
-  #ifdef CLOCK_GET_TIME
-    printf("clock_gettime elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
-  #endif
-  #ifdef GET_TIME_OF_DAY
-    printf("gettime_ofday elapsed time = %llu microseconds\n", (long long unsigned int) diff);
-  #endif
-  #ifdef RDTSC
-    printf("RDTSC elapsed time = %llu nanoseconds\n", (long long unsigned int) diff);
-  #endif
- }
+   diff[i] = diff[i]- base; // removing the overhead
+   printf("clock_gettime elapsed time = %llu nanoseconds\n", (long long unsigned int) diff[i]);
+}
+#ifdef CLOCK_GET_TIME
+printf("CLOCK_GET_TIME elapsed times are:\n");
+#endif
+#ifdef GET_TIME_OF_DAY
+printf("GET_TIME_OF_DAY elapsed times are:\n");
+#endif
+#ifdef RDTSC
+printf("RDTSC elapsed times are:\n");
+#endif
+
+// let's ignore the first value
+for (i = 1; i < REPEAT; i++)
+{
+  if (i == 1 ) {  max = diff[i];}
+  mean_accum += diff[i];
+  if (diff[i] > max)  { max = diff[i];  }
+  printf("%lld\n", diff[i]);
+}
+
+mean = ((double)mean_accum)/ (REPEAT - 1);
+for (i = 1; i < REPEAT; i++)
+{
+  variance += (diff[i] - mean) * (diff[i] - mean);
+}
+printf ("Max: %lld  Mean: %f  Variance: %f\n", max, mean, variance/(REPEAT-1));
 #endif
   return 0;
 }
