@@ -131,8 +131,52 @@ int main (void)
      "movl $56, %eax\n"
      "movl $56, %eax\n"
      "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
    );
   #endif
+
 
   #ifdef GET_TIME_OF_DAY
    for (dummy_a = 0; dummy_a < 400; dummy_a++); 
@@ -192,7 +236,7 @@ int main (void)
   #endif
 
    diff[i] = diff[i]- base; // removing the overhead
-   printf("clock_gettime elapsed time = %llu nanoseconds\n", (long long unsigned int) diff[i]);
+   //printf("clock_gettime elapsed time = %llu nanoseconds\n", (long long unsigned int) diff[i]);
 }
 #ifdef CLOCK_GET_TIME
 printf("CLOCK_GET_TIME elapsed times are:\n");

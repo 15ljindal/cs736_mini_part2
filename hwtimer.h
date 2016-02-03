@@ -17,7 +17,7 @@ typedef uint64_t hrtime_t;
 
 __inline__ hrtime_t _rdtsc() {
     unsigned long int lo, hi;
-    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+    __asm__ __volatile__ ("rdtscp" : "=a" (lo), "=d" (hi));
     return (hrtime_t)hi << 32 | lo;
 }
 
