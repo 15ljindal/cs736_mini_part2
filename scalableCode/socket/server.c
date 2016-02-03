@@ -8,6 +8,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h> 
+#define MAX_TRANSFER_SIZE 4097
 
 int main(int argc, char *argv[])
 {
@@ -33,17 +34,43 @@ int main(int argc, char *argv[])
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
 	for (int k=0;k<100;k++)
 	{
-	  int n = read(connfd, Buff, sizeof(char)*1024*1024);
+	  printf("-----------------\n");
+	  printf("Loop Count %d\n",k);
+	  int n = 0;
+	  int j = MAX_TRANSFER_SIZE;
+	  printf("Start receiving\n");
+	  while (j == MAX_TRANSFER_SIZE)
+	  {
+	    j = recv(connfd, Buff+n, sizeof(char)*MAX_TRANSFER_SIZE,0);
+	    n=n+j;  
+	    printf("Recv %d bytes\n",j);
+	  }
 	
+	  printf("Total Received bytes equal to %d\n",n);
 	  if (n > 0)
 	  {
 	    Buff[n] = 0;
 	  }
-
-	  write(connfd, Buff, sizeof(char)*n); 
+	  int l = MAX_TRANSFER_SIZE;
+	  int acc = 0;
+	  printf("Start sending\n");
+	  while (n>0)
+	  {
+	    if (n < l)
+	    {
+	      l = n;
+	    }
+	    if(send(connfd, Buff+acc, sizeof(char)*l,0) <0) 
+		printf ("error sending packet\n");
+	    printf("Sent %d bytes\n",l);
+	    n = n-l; 
+	    acc = acc+l;
+	  }
+	  printf("Total Sent bytes equal to %d\n",acc);
+	  printf("-----------------\n");
 	}
+	printf("Move to Next Connection\n");
 
         close(connfd);
-        sleep(1);
      }
 }

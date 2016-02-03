@@ -8,31 +8,29 @@
 #include <unistd.h>
 #include <errno.h>
 #include <arpa/inet.h> 
+#define MAX_TRANSFER_SIZE 4097
 #include "../hwtimer.h"
 #define ITER 100
 
-
 int main(int argc, char *argv[])
 {
-    pin_on_cpu (0);
-    hwtimer_t rdtimer;
-    initTimer(&rdtimer);
-    uint64_t time_elapsed = 0;
-    uint64_t time_accum = 0;
     int sockfd = 0, n = 0;
     char* sendBuff;
-    char* recvBuff;
+    char recvBuff[1024*1024];
     struct sockaddr_in serv_addr; 
-
+    uint64_t time_elapsed = 0; 
+    uint64_t time_accum = 0;
+    hwtimer_t rdtimer;
+    initTimer(&rdtimer);
+    pin_on_cpu (1);
     if(argc != 3)
     {
         printf("\n Usage: %s <ip of server>  <size of message>\n",argv[0]);
         return 1;
     } 
-    sendBuff = (char *)malloc(sizeof(char)*atoi(argv[2]));
-    recvBuff = (char *)malloc(sizeof(char)*(atoi(argv[2])+1));
-    memset(sendBuff, '1',sizeof(char)*atoi(argv[2]));
-    memset(recvBuff, '0',sizeof(char)*(atoi(argv[2])+1));
+    int sendBytes =  atoi(argv[2]);
+    sendBuff = (char *)malloc(sizeof(char)*1024*1024);
+    memset(sendBuff, '1',sizeof(char)*1024*1024);
     if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Error : Could not create socket \n");
@@ -59,31 +57,45 @@ int main(int argc, char *argv[])
     {
       resetTimer(&rdtimer);
       startTimer (&rdtimer);
-      if (send(sockfd,sendBuff,sizeof(char)*atoi(argv[2]),0) <0)
-          printf ("error sending packet\n");
-      //else
-      //    printf ("packet send done\n");
-
-      
-      //while ( (n = read(sockfd, recvBuff, sizeof(char)*(atoi(argv[2])+1))) > 0)
+      //printf("-----------------\n");
+      //printf("Loop Count %d\n",k);
+      int l = MAX_TRANSFER_SIZE;
+      int acc = 0;
+      n = sendBytes;
+      //printf("Start sending\n");
+      while (n>0)
       {
-          n = read(sockfd, recvBuff, sizeof(char)*(atoi(argv[2])+1));
-          recvBuff[n] = 0;
-          //if(fputs(recvBuff, stdout) == EOF)
-          //{
-          //    printf("\n Error : Fputs error\n");
-          //}
-          //printf ("\n");
-      } 
+        if (n < l)
+        {
+          l = n;
+        }
+	if (send(sockfd,sendBuff,sizeof(char)*l,0) <0)
+	    printf ("error sending packet\n");
+        n = n-l; 
+        acc = acc+l;
+	//printf("Sent %d bytes\n",l);
+      }
+      //printf("Total Sent %d bytes\n",acc);
+
+      n=0;
+      int j = MAX_TRANSFER_SIZE;
+      //printf("Start receiving\n");
+      while (j == MAX_TRANSFER_SIZE)
+      {
+	j = read(sockfd, recvBuff, sizeof(char)*MAX_TRANSFER_SIZE);
+	n=n+j;  
+	//printf("Recv %d bytes\n",j);
+      }
+      //printf("Total Received bytes equal to %d\n",n);
       stopTimer (&rdtimer);
       time_elapsed = getTimerNs(&rdtimer);
-      if (k > 0) { time_accum += time_elapsed; }
-
-      if(n < 0)
-      {
-          printf("\n Read error \n");
-      } 
+      if (k > 0) { 
+	  time_accum += time_elapsed; 
+	  printf("Accumulated Time is - %d\n",time_accum);
+      }
+      //printf("-----------------\n");
     }
-    printf("Average latency for socket is %f\n",time_accum/99.0);
+    close(sockfd);
+    printf("accum_time is %lld and average time is %lld\n", time_accum, (float)time_accum / (float)(ITER - 1));
     return 0;
 }
