@@ -9,6 +9,7 @@
 #define MILLION 1000000L
 #define ITER 10
 #define REPEAT 100
+#define IGNORE 10
 int main (void)
 {
   uint64_t diff[REPEAT];
@@ -174,6 +175,16 @@ int main (void)
      "movl $56, %eax\n"
      "movl $56, %eax\n"
      "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
+     "movl $56, %eax\n"
    );
   #endif
 
@@ -184,16 +195,6 @@ int main (void)
   
   #ifdef RDTSC
   asm(
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
-     "movl $56, %eax\n"
      "movl $56, %eax\n"
      "movl $56, %eax\n"
      "movl $56, %eax\n"
@@ -249,20 +250,20 @@ printf("RDTSC elapsed times are:\n");
 #endif
 
 // let's ignore the first value
-for (i = 1; i < REPEAT; i++)
+for (i = IGNORE; i < REPEAT; i++)
 {
-  if (i == 1 ) {  max = diff[i];}
+  if (i == IGNORE ) {  max = diff[i];}
   mean_accum += diff[i];
   if (diff[i] > max)  { max = diff[i];  }
   printf("%lld\n", diff[i]);
 }
 
-mean = ((double)mean_accum)/ (REPEAT - 1);
-for (i = 1; i < REPEAT; i++)
+mean = ((double)mean_accum)/ (REPEAT - IGNORE);
+for (i = IGNORE; i < REPEAT; i++)
 {
   variance += (diff[i] - mean) * (diff[i] - mean);
 }
-printf ("Max: %lld  Mean: %f  Variance: %f\n", max, mean, variance/(REPEAT-1));
+printf ("Max: %lld  Mean: %f  Variance: %f\n", max, mean, variance/(REPEAT-IGNORE));
 #endif
   return 0;
 }

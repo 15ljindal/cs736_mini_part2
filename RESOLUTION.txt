@@ -1,435 +1,217 @@
-CLOCK_GET_TIME
+RDTSC
 ==============
 lokeshjindal15@valkyrie:/afs/cs.wisc.edu/u/l/o/lokeshjindal15/private/UWM_COURSES/cs736/mini_project/part2$ ./a.out 
 base is = 0 nanoseconds
-base is = 225 nanoseconds
-base is = 225 nanoseconds
-base is = 226 nanoseconds
-base is = 224 nanoseconds
-base is = 227 nanoseconds
-base is = 225 nanoseconds
-base is = 226 nanoseconds
-base is = 226 nanoseconds
-base is = 227 nanoseconds
-CLOCK_GET_TIME Final base is = 225 nanoseconds
-clock_gettime elapsed time = 7 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 6 nanoseconds
-clock_gettime elapsed time = 1 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 6 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 6 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 1 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 6 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 1 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 6 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-CLOCK_GET_TIME elapsed times are:
-4
-6
-1
-4
-2
-3
-5
-4
-4
-4
-4
-5
-3
-5
-3
-4
-4
-4
-4
-5
-2
-5
-5
-4
-5
-4
-5
-6
-2
-6
-4
-4
-1
-4
-2
-4
-4
-5
-5
-4
-4
-2
-5
-2
-5
-2
-5
-4
-5
-5
-2
-5
-4
-6
-3
-4
-3
-4
-4
-3
-3
-4
-5
-4
+base is = 12 nanoseconds
+base is = 12 nanoseconds
+base is = 14 nanoseconds
+base is = 12 nanoseconds
+base is = 11 nanoseconds
+base is = 13 nanoseconds
+base is = 12 nanoseconds
+base is = 11 nanoseconds
+base is = 12 nanoseconds
+RDTSC Final base is = 12 nanoseconds
+RDTSC elapsed times are:
 1
 3
-6
 3
-4
-4
-4
-5
+1
+1
+3
+1
+1
+3
+3
+1
+1
+3
+1
+1
+3
+3
+1
+0
+3
+0
+1
+0
+3
+0
+1
 2
 3
-4
+0
+1
 2
-4
-3
-2
-5
-3
-5
-3
-4
-3
-3
-5
-4
-3
-4
-3
-5
+1
+0
 3
 2
-4
-5
-4
+1
+0
 3
-4
-Max: 6  Mean: 3.808081  Variance: 1.347005 CLOCK_GET_TIME
+0
+1
+0
+3
+0
+1
+2
+3
+0
+1
+3
+1
+1
+3
+3
+1
+1
+3
+1
+1
+3
+3
+1
+1
+3
+3
+1
+1
+3
+1
+1
+3
+3
+1
+1
+3
+1
+1
+3
+3
+1
+1
+3
+3
+1
+1
+3
+1
+1
+3
+3
+1
+Max: 3  Mean: 1.677778  Variance: 1.218395 RDTSC
 
 ===============================================================================
-RDTSC
+CLOCK_GET_TIME
 =====
 lokeshjindal15@valkyrie:/afs/cs.wisc.edu/u/l/o/lokeshjindal15/private/UWM_COURSES/cs736/mini_project/part2$ ./a.out 
 base is = 0 nanoseconds
-base is = 5 nanoseconds
-base is = 7 nanoseconds
-base is = 8 nanoseconds
-base is = 5 nanoseconds
-base is = 6 nanoseconds
-base is = 7 nanoseconds
-base is = 7 nanoseconds
-base is = 8 nanoseconds
-base is = 7 nanoseconds
-RDTSC Final base is = 6 nanoseconds
-clock_gettime elapsed time = 5 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 1 nanoseconds
-clock_gettime elapsed time = 0 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 1 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 0 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 1 nanoseconds
-clock_gettime elapsed time = 0 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 0 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 3 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-clock_gettime elapsed time = 4 nanoseconds
-clock_gettime elapsed time = 2 nanoseconds
-RDTSC elapsed times are:
-3
-3
-3
-4
+base is = 226 nanoseconds
+base is = 226 nanoseconds
+base is = 224 nanoseconds
+base is = 225 nanoseconds
+base is = 226 nanoseconds
+base is = 226 nanoseconds
+base is = 225 nanoseconds
+base is = 227 nanoseconds
+base is = 227 nanoseconds
+CLOCK_GET_TIME Final base is = 225 nanoseconds
+CLOCK_GET_TIME elapsed times are:
+2
 1
-0
-4
+2
+2
+2
+2
+2
+2
+2
 3
-3
-4
 4
 2
 1
-4
-3
-4
-3
-2
-4
-4
 3
 3
-4
-3
-3
-3
-0
-4
-3
-4
-4
-4
-3
-4
-4
-3
-3
-4
-3
-2
-2
-3
-4
-3
-3
-4
-4
+1
+1
+1
+1
 1
 0
-4
-3
-3
-3
-4
-4
-4
+1
 2
+0
+0
 4
-4
-2
-3
-4
-4
-2
-2
-3
-3
-3
-3
-4
+0
+1
+1
 3
 2
 3
-4
-4
-2
-2
-2
+0
+3
 3
 4
+3
+3
 2
 3
 3
 3
 3
-4
+2
+3
+3
+2
+2
+2
+2
+1
+1
+2
+0
+2
+0
+1
+3
+3
+2
+2
+1
+0
+1
+1
+1
+1
+0
+0
+1
+1
+2
 3
 3
 0
-4
-4
+1
+0
+1
 3
 3
-4
-4
+0
+1
+3
+3
+3
 4
 2
-4
 2
-Max: 4  Mean: 3.050505  Variance: 1.017651 RDTSC
+3
+3
+Max: 4  Mean: 1.833333  Variance: 1.272222 CLOCK_GET_TIME
 
 ======================================================
 
