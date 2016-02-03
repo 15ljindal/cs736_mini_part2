@@ -8,22 +8,25 @@
 #include <unistd.h>
 #include <errno.h>
 #include <arpa/inet.h> 
-#define MAX_TRANSFER_SIZE 4097
+#define ITER 100
 
 int main(int argc, char *argv[])
 {
     int sockfd = 0, n = 0;
     char* sendBuff;
-    char recvBuff[1024*1024];
+    char* recvBuff;
     struct sockaddr_in serv_addr; 
+
     if(argc != 3)
     {
         printf("\n Usage: %s <ip of server>  <size of message>\n",argv[0]);
         return 1;
     } 
-    int sendBytes =  atoi(argv[2]);
     sendBuff = (char *)malloc(sizeof(char)*atoi(argv[2]));
-    memset(sendBuff, '1',sizeof(char)*atoi(argv[2]));
+    recvBuff = (char *)malloc(sizeof(char)*(atoi(argv[2])));
+    memset(sendBuff, '0',sizeof(char)*atoi(argv[2]));
+    memset(recvBuff, '0',sizeof(char)*(atoi(argv[2])+1));
+    int messageSize = atoi(argv[2]);
     if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Error : Could not create socket \n");
@@ -46,50 +49,41 @@ int main(int argc, char *argv[])
        printf("\n Error : Connect Failed \n");
        return 1;
     } 
-    for (int k=0;k<100;k++)
-    {
-      printf("-----------------\n");
-      printf("Loop Count %d\n",k);
-      int l = MAX_TRANSFER_SIZE;
-      int acc = 0;
-      n = sendBytes;
-      printf("Start sending\n");
-      while (n>0)
-      {
-        if (n < l)
-        {
-          l = n;
-        }
-	if (send(sockfd,sendBuff,sizeof(char)*l,0) <0)
-	    printf ("error sending packet\n");
-        n = n-l; 
-        acc = acc+l;
-	printf("Sent %d bytes\n",l);
-      }
-      printf("Total Sent %d bytes\n",acc);
-      //else
-      //    printf ("packet send done\n");
-
-      n=0;
-      int j = MAX_TRANSFER_SIZE;
-      printf("Start receiving\n");
-      while (j == MAX_TRANSFER_SIZE)
-      {
-	j = read(sockfd, recvBuff, sizeof(char)*MAX_TRANSFER_SIZE);
-	n=n+j;  
-	printf("Recv %d bytes\n",j);
-      }
-      printf("Total Received bytes equal to %d\n",n);
-      if (n > 0)
-      {
-        recvBuff[n] = 0;
-      }
-
-      if(n < 0)
-      {
-          printf("\n Read error \n");
-      }
-      printf("-----------------\n");
+    //Sent a Packet to determine size of communication
+    int sentBytes = 0;
+    sentBytes = send(sockfd,&messageSize,sizeof(int),0);
+    if (sentBytes < 0 )
+        printf ("error sending packet\n");
+    else
+        printf ("packet send done %d\n",sentBytes);
+    
+    for (int k=0;k<ITER;k++)
+    {	
+	printf("Loop %d\n",k);
+	sentBytes = send(sockfd,sendBuff,sizeof(char)*messageSize,0);
+    	if (sentBytes < 0 )
+    	    printf ("error sending packet\n");
+    	else
+    	    printf ("packet send done  %d\n",sentBytes);
+    	    
+    	
+    	n = messageSize;
+    	int acc=0;
+    	while (n > 0)
+    	{
+    	  int j= read(sockfd, recvBuff, sizeof(char)*messageSize);	
+    	  if (j<0)
+    	  {
+    	    printf ("error sending packet\n");
+    	  }
+    	  else
+    	  {
+    	    printf("Recv %d bytes\n",j);
+    	    n = n-j;
+    	  }
+    	  acc= acc+j;
+    	}
+    	printf ("Total bytes received is %d\n",acc);
     }
     close(sockfd);
     return 0;

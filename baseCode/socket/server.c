@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr; 
     char Buff[1024*1024];
     time_t ticks; 
+    int size_of_packet;
 
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
@@ -31,15 +32,30 @@ int main(int argc, char *argv[])
     while(1)
     {
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
-	int n = read(connfd, Buff, sizeof(char)*1024*1024);
+	int n = read(connfd, &size_of_packet, sizeof(int));
 	if (n > 0)
 	{
-	  Buff[n] = 0;
+	  printf("Size of message is %d\n",size_of_packet);
 	}
-
-        write(connfd, Buff, sizeof(char)*n); 
-
+	int writeSize = size_of_packet;
+	n = writeSize;
+	int acc=0;
+	while (n > 0)
+	{
+	  int j = read(connfd, Buff, sizeof(char)*1024*1024);
+	  if (j<0)
+	  {
+	    printf ("error sending packet\n");
+	  }
+	  else
+	  {
+	    printf("Recv %d bytes\n",j);
+	    n = n-j;
+	  }
+	  acc= acc+j;
+	}
+	printf("Total bytes Recv %d\n",acc);
+        write(connfd, Buff, sizeof(char)*writeSize); 
         close(connfd);
-        sleep(1);
      }
 }

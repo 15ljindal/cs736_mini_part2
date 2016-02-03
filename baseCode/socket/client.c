@@ -22,9 +22,10 @@ int main(int argc, char *argv[])
         return 1;
     } 
     sendBuff = (char *)malloc(sizeof(char)*atoi(argv[2]));
-    recvBuff = (char *)malloc(sizeof(char)*(atoi(argv[2])+1));
-    memset(sendBuff, '1',sizeof(char)*atoi(argv[2]));
+    recvBuff = (char *)malloc(sizeof(char)*(atoi(argv[2])));
+    memset(sendBuff, '0',sizeof(char)*atoi(argv[2]));
     memset(recvBuff, '0',sizeof(char)*(atoi(argv[2])+1));
+    int messageSize = atoi(argv[2]);
     if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Error : Could not create socket \n");
@@ -47,23 +48,40 @@ int main(int argc, char *argv[])
        printf("\n Error : Connect Failed \n");
        return 1;
     } 
-
-    if (send(sockfd,sendBuff,sizeof(char)*atoi(argv[2]),0) <0)
+    //Sent a Packet to determine size of communication
+    int sentBytes = 0;
+    sentBytes = send(sockfd,&messageSize,sizeof(int),0);
+    if (sentBytes < 0 )
         printf ("error sending packet\n");
     else
-        printf ("packet send done\n");
-
+        printf ("packet send done %d\n",sentBytes);
+   
+    sentBytes = send(sockfd,sendBuff,sizeof(char)*messageSize,0);
+    if (sentBytes < 0 )
+        printf ("error sending packet\n");
+    else
+        printf ("packet send done - %d\n",sentBytes);
+	
     
     //while ( (n = read(sockfd, recvBuff, sizeof(char)*(atoi(argv[2])+1))) > 0)
+    
+    n = messageSize;
+    int acc=0;
+    while (n > 0)
     {
-	n = read(sockfd, recvBuff, sizeof(char)*(atoi(argv[2])+1));
-        recvBuff[n] = 0;
-        if(fputs(recvBuff, stdout) == EOF)
-        {
-            printf("\n Error : Fputs error\n");
-        }
-	printf ("\n");
-    } 
+      int j= read(sockfd, recvBuff, sizeof(char)*messageSize);	
+      if (j<0)
+      {
+        printf ("error sending packet\n");
+      }
+      else
+      {
+        printf("Recv %d bytes\n",j);
+        n = n-j;
+      }
+      acc= acc+j;
+    }
+    printf ("Total bytes received is %d\n",acc);
 
     if(n < 0)
     {

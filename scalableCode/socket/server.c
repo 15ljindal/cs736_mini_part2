@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h> 
-#define MAX_TRANSFER_SIZE 4097
+#define ITER 100
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr; 
     char Buff[1024*1024];
     time_t ticks; 
+    int size_of_packet;
 
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
@@ -31,46 +32,36 @@ int main(int argc, char *argv[])
 
     while(1)
     {
-        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
-	for (int k=0;k<100;k++)
+        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 	
+        int n = read(connfd, &size_of_packet, sizeof(int));
+	if (n > 0)
 	{
-	  printf("-----------------\n");
-	  printf("Loop Count %d\n",k);
-	  int n = 0;
-	  int j = MAX_TRANSFER_SIZE;
-	  printf("Start receiving\n");
-	  while (j == MAX_TRANSFER_SIZE)
-	  {
-	    j = recv(connfd, Buff+n, sizeof(char)*MAX_TRANSFER_SIZE,0);
-	    n=n+j;  
-	    printf("Recv %d bytes\n",j);
-	  }
-	
-	  printf("Total Received bytes equal to %d\n",n);
-	  if (n > 0)
-	  {
-	    Buff[n] = 0;
-	  }
-	  int l = MAX_TRANSFER_SIZE;
-	  int acc = 0;
-	  printf("Start sending\n");
-	  while (n>0)
-	  {
-	    if (n < l)
-	    {
-	      l = n;
-	    }
-	    if(send(connfd, Buff+acc, sizeof(char)*l,0) <0) 
-		printf ("error sending packet\n");
-	    printf("Sent %d bytes\n",l);
-	    n = n-l; 
-	    acc = acc+l;
-	  }
-	  printf("Total Sent bytes equal to %d\n",acc);
-	  printf("-----------------\n");
+	  printf("Size of message is %d\n",size_of_packet);
 	}
-	printf("Move to Next Connection\n");
+	int writeSize = size_of_packet;
 
+	for (int k=0;k<ITER;k++)
+	{
+	    printf("Loop %d\n",k);
+	    n = writeSize;
+	    int acc=0;
+	    while (n > 0)
+	    {
+	      int j = read(connfd, Buff, sizeof(char)*1024*1024);
+	      if (j<0)
+	      {
+	        printf ("error sending packet\n");
+	      }
+	      else
+	      {
+	        printf("Recv %d bytes\n",j);
+	        n = n-j;
+	      }
+	      acc= acc+j;
+	    }
+	    printf("Total bytes Recv %d\n",acc);
+            write(connfd, Buff, sizeof(char)*writeSize); 
+	}
         close(connfd);
      }
 }
