@@ -6,7 +6,8 @@
 
 #include "hwtimer.h"
 
-#define ITER 50
+#define ITER 10
+#define MAX_DATA 51200000 // 5MB of data
  
 int main(int argc, char**argv)
 {
@@ -15,11 +16,12 @@ int main(int argc, char**argv)
         // char    string1[] = "Sava\n";
         // char    string2[] = "YoYo\n";
         // char    readbuffer[80];
-        uint64_t time_elapsed = 0; 
+        uint64_t time_elapsed[ITER]; 
         uint64_t time_accum = 0;
         double av_time = 0;
         int mindex = -1;
         int i = 0;
+        int j = 0;
 
         char dict[] = "abcdefghijklmnopqrstuvwxyz";
         long int message_sizes[] = {4, 16, 64, 256, 1000, 4000, 16000, 64000, 256000, 512000, 1024000};
@@ -67,24 +69,28 @@ int main(int argc, char**argv)
                 /* Child process closes up input side of pipe */
                 close(fd1[0]);
                 close(fd2[1]);
-                for (i = 0; i < ITER ; i++)
+                // want to send MAX_DATA amount of total data
+                for (j = 0; j < ITER; j++)
                 {
                   resetTimer(&rdtimer);
                   startTimer (&rdtimer);
-                  /* Send "string" through the output side of pipe */
-                  write(fd1[1], string1, message_sizes[mindex]);
-                  
-                  nbytes = read(fd2[0], readbuffer, message_sizes[mindex]);
-                  
-                  stopTimer (&rdtimer);
-                  time_elapsed = getTimerNs(&rdtimer);
-                  if (i > 0) { time_accum += time_elapsed; }
+                  for (i = 0; i < (MAX_DATA/message_sizes[mindex]) ; i++)
+                  {
+                    /* Send "string" through the output side of pipe */
+                    write(fd1[1], string1, message_sizes[mindex]);
+                    
  
-                  printf("time is %lld\n", (long long)time_elapsed);
-                  // printf("Received string: %s", readbuffer);
+                    // printf("Received string: %s", readbuffer);
+                  }
+                  nbytes = read(fd2[0], readbuffer, 4);
+                    
+                  stopTimer (&rdtimer);
+                  time_elapsed[j] = getTimerNs(&rdtimer);
                 }
-                av_time = time_accum / ((double)(ITER - 1));
-                printf("accum_time is %lld and average time is %f and thruput is %f\n", time_accum, av_time, message_sizes[mindex]/av_time);
+                for (j = 0; j < ITER; j++)
+                {
+                  printf("time_elapsed is %lld and thruput is %f\n", time_elapsed[j], MAX_DATA /((double)time_elapsed[j]) );
+                }
                 exit(0);
         }
         else
@@ -93,15 +99,17 @@ int main(int argc, char**argv)
                 close(fd1[1]);
                 close(fd2[0]);
 
-                
-                for (i = 0; i < ITER ; i++)
-                {
-                  /* Read in a string from the pipe */
-                  nbytes = read(fd1[0], readbuffer, message_sizes[mindex]);
+                for (j = 0; j < ITER; j++)
+                {                
+                  for (i = 0; i < (MAX_DATA/message_sizes[mindex]) ; i++)
+                  {
+                    /* Read in a string from the pipe */
+                    nbytes = read(fd1[0], readbuffer, message_sizes[mindex]);
+                    
                   
+                  // printf("Received string: %s", readbuffer);
+                  }
                   write(fd2[1], "DONE", 4);
-                
-                // printf("Received string: %s", readbuffer);
                 }
         }
         
