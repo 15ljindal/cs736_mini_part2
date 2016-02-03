@@ -6,8 +6,8 @@
 
 #include "hwtimer.h"
 
-#define ITER 10
-#define MAX_DATA 51200000 // 5MB of data
+#define ITER 50
+#define MAX_DATA 5120000 // 5MB of data
  
 int main(int argc, char**argv)
 {
@@ -17,6 +17,9 @@ int main(int argc, char**argv)
         // char    string2[] = "YoYo\n";
         // char    readbuffer[80];
         uint64_t time_elapsed[ITER]; 
+        double thruput[ITER];
+        double thruput_max = 0; 
+        double thruput_accum = 0; 
         uint64_t time_accum = 0;
         double av_time = 0;
         int mindex = -1;
@@ -85,12 +88,19 @@ int main(int argc, char**argv)
                   nbytes = read(fd2[0], readbuffer, 4);
                     
                   stopTimer (&rdtimer);
-                  time_elapsed[j] = getTimerNs(&rdtimer);
+                 time_elapsed[j] = getTimerNs(&rdtimer);
+                 thruput[j] = (MAX_DATA+4) /((double)time_elapsed[j]);
                 }
+                 
                 for (j = 0; j < ITER; j++)
                 {
-                  printf("time_elapsed is %lld and thruput is %f\n", time_elapsed[j], MAX_DATA /((double)time_elapsed[j]) );
+                  printf("time_elapsed is %lld and thruput is %f\n", time_elapsed[j], thruput[j] );
+                  if (j == 0) { thruput_max = thruput[j]; }
+                  if (thruput[j] > thruput_max) { thruput_max = thruput[j]; }
+                  thruput_accum += thruput[j];
                 }
+                printf("=====================================\n");
+                printf("min_thruput: %f\navg_thruput: %f\n", thruput_max, thruput_accum/ITER);
                 exit(0);
         }
         else
